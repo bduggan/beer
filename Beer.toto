@@ -1,0 +1,15 @@
+[
+    beer => {
+        one  => [qw/description pubs ingredients/],
+        many => [qw/search browse graph/]
+    },
+    pub => {
+        one  => [qw/directions photos hours beers/],
+        many => [qw/search browse/]
+    },
+    photo => {
+        one  => [qw/view metadata edit/],
+        many => [qw/collage browse/]
+    },
+]
+
