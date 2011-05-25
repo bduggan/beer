@@ -1,0 +1,5 @@
+
+dotcloud create beer
+dotcloud deploy --type perl beer.www
+dotcloud push beer.www .
+ 
