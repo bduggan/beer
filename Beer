@@ -1,10 +1,26 @@
 #!/usr/bin/env perl
 
+# package <app name>::<controller>
+package Beer::Pub;
+use Mojo::Base 'Mojolicious::Controller';
+
+# sub <action>
+sub search {
+    my $c = shift;
+    $c->stash("pubsearch" => "frooble");
+}
+
+sub info {
+    my $c = shift;
+    my $pub = shift;
+    $c->stash(someinfo => "this is some info about pub ".$pub->key);
+}
+
+package main;
 use Mojolicious::Lite;
 
-# Documentation browser under "/perldoc" (this plugin requires Perl 5.10)
-plugin 'pod_renderer';
-# plugin 'toto' => do 'Beer.toto';
+app->routes->namespace("Beer");
+
 plugin 'toto' =>
     path => "/app",
     menu => [
@@ -29,7 +45,6 @@ __DATA__
 @@ index.html.ep
 % layout 'default';
 % title 'Welcome';
-Welcome to Mojolicious!
 <a href=/app>toto</a>
 
 @@ layouts/default.html.ep
