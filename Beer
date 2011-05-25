@@ -20,6 +20,7 @@ plugin 'toto' =>
 
 get '/' => sub {
   my $self = shift;
+  $self->stash(file => __FILE__);
   $self->render('index');
 };
 
@@ -36,7 +37,7 @@ __DATA__
 <a href=/app>toto</a>
 <hr>
 <pre>
-%= Mojo::Asset::File->new(path => $0)->slurp;
+%= Mojo::Asset::File->new(path => $file)->slurp;
 </pre>
   </body>
 </html>
