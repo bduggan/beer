@@ -1,21 +1,5 @@
 #!/usr/bin/env perl
 
-# package <app name>::<controller>
-package Beer::Pub;
-use Mojo::Base 'Mojolicious::Controller';
-
-# sub <action>
-sub search {
-    my $c = shift;
-    $c->stash("pubsearch" => "frooble");
-}
-
-sub info {
-    my $c = shift;
-    my $pub = shift;
-    $c->stash(someinfo => "this is some info about pub ".$pub->key);
-}
-
 package main;
 use Mojolicious::Lite;
 
@@ -43,12 +27,16 @@ app->start;
 __DATA__
 
 @@ index.html.ep
-% layout 'default';
-% title 'Welcome';
-<a href=/app>toto</a>
-
-@@ layouts/default.html.ep
+% use Mojo::Asset::File;
 <!doctype html><html>
-  <head><title><%= title %></title></head>
-  <body><%= content %></body>
+  <head>
+%= title 'Welcome';
+</head>
+  <body>
+<a href=/app>toto</a>
+<hr>
+<pre>
+%= Mojo::Asset::File->new(path => $0)->slurp;
+</pre>
+  </body>
 </html>
