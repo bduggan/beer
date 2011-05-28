@@ -1,5 +1,11 @@
 #!/usr/bin/env perl
 
+package Beer::Pub;
+use Mojo::Base 'Mojolicious::Controller';
+sub search {
+    shift->render_text("now we are searching pubs from a controller class");
+}
+
 package main;
 use Mojolicious::Lite;
 
@@ -9,14 +15,28 @@ plugin 'toto' =>
     path => "/app",
     menu => [
         beer => { one => [qw/picture ingredients pubs/],
-                  many => [qw/search browse/] },
+                  many => [qw/browse search/] },
         brewery => { one => [qw/directions beers info/],
                   many => [qw/phonelist mailing_list/] },
         pub  => { one => [qw/info comments/],
-                  many => [qw/search map/] },
+                  many => [qw/browse search map/] },
     ]
 ;
 
+get '/another/url/of/some/sort' => sub {
+    my $c = shift;
+    $c->stash(area => "dc");
+} => "pub/map";
+
+get '/some/url/for/browsing/beers' => sub {
+    shift->render_text("hi there");
+} => "beer/browse";
+
+get '/some/url/for/info/about/a/pub/:key' => sub {
+    my $c = shift;
+    my $key = $c->stash("key");
+    $c->render_text("this is info about pub $key with my own url");
+} => "brewery/info";
 
 get '/' => sub {
   my $self = shift;

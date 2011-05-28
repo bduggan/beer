@@ -1,5 +1,15 @@
 
 here is someinfo :
 <hr>
-%= $someinfo
-<hr>
+
+<script>
+$(document).ready(function () { 
+    $('#ThemeRoller').themeswitcher(); 
+});
+</script>
+
+<script type="text/javascript"
+  src="http://jqueryui.com/themeroller/themeswitchertool/"> 
+</script> 
+<div id="ThemeRoller"></div>
+
