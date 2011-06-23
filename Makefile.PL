@@ -2,7 +2,10 @@
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-  PREREQ_PM => {'Mojolicious' => '1.21', 'Mojolicious::Plugin::Toto' => '0.03' }
+PREREQ_PM => {
+    'Mojolicious'               => '1.21',
+    'Mojolicious::Plugin::Toto' => '0.04'
+  }
 );
 
 
