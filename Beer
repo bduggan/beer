@@ -25,10 +25,6 @@ get '/some/url/for/info/about/a/brewery/:key' => sub {
     $c->render_text("this is info about brewery $key with my own url");
 } => "brewery/info";
 
-get '/beer/browse' => sub {
-    shift->render_text("here is a page for you");
-  } => "beer/browse";
-
 plugin 'toto' =>
     menu => [
         beer => {
@@ -39,7 +35,8 @@ plugin 'toto' =>
                   many => [qw/find phonelist mailing_list/] },
         pub  => { one => [qw/info comments/],
                   many => [qw/browse search map/] },
-    ]
+    ],
+    themeswitcher => 1,
 ;
 
 
