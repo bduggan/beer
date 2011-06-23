@@ -25,12 +25,6 @@ get '/some/url/for/info/about/a/brewery/:key' => sub {
     $c->render_text("this is info about brewery $key with my own url");
 } => "brewery/info";
 
-get '/' => sub {
-  my $self = shift;
-  $self->stash(file => __FILE__);
-  $self->render('index');
-};
-
 get '/beer/browse' => sub {
     shift->render_text("here is a page for you");
   } => "beer/browse";
@@ -50,19 +44,3 @@ plugin 'toto' =>
 
 
 app->start;
-__DATA__
-
-@@ index.html.ep
-% use Mojo::Asset::File;
-<!doctype html><html>
-  <head>
-%= title 'Welcome';
-</head>
-  <body>
-<a href=/app/>toto</a>
-<hr>
-<pre>
-%= Mojo::Asset::File->new(path => $file)->slurp;
-</pre>
-  </body>
-</html>
