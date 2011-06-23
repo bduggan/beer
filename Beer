@@ -3,7 +3,8 @@
 package Beer::Pub;
 use Mojo::Base 'Mojolicious::Controller';
 sub search {
-    shift->render_text("now we are searching pubs from a controller class");
+    my $c  = shift;
+    $c->render_text("now we are searching pubs from a controller class");
 }
 
 package main;
@@ -11,31 +12,17 @@ use Mojolicious::Lite;
 
 app->routes->namespace("Beer");
 
-plugin 'toto' =>
-    path => "/app",
-    menu => [
-        beer => { one => [qw/picture ingredients pubs/],
-                  many => [qw/browse search/] },
-        brewery => { one => [qw/directions beers info/],
-                  many => [qw/phonelist mailing_list/] },
-        pub  => { one => [qw/info comments/],
-                  many => [qw/browse search map/] },
-    ]
-;
+get '/pub/search' => "pub/search";
 
 get '/another/url/of/some/sort' => sub {
     my $c = shift;
     $c->stash(area => "dc");
 } => "pub/map";
 
-get '/some/url/for/browsing/beers' => sub {
-    shift->render_text("hi there");
-} => "beer/browse";
-
-get '/some/url/for/info/about/a/pub/:key' => sub {
+get '/some/url/for/info/about/a/brewery/:key' => sub {
     my $c = shift;
     my $key = $c->stash("key");
-    $c->render_text("this is info about pub $key with my own url");
+    $c->render_text("this is info about brewery $key with my own url");
 } => "brewery/info";
 
 get '/' => sub {
@@ -43,6 +30,24 @@ get '/' => sub {
   $self->stash(file => __FILE__);
   $self->render('index');
 };
+
+get '/beer/browse' => sub {
+    shift->render_text("here is a page for you");
+  } => "beer/browse";
+
+plugin 'toto' =>
+    menu => [
+        beer => {
+                   many => [qw/browse search/],
+                   one => [qw/picture ingredients pubs/],
+                  },
+        brewery => { one => [qw/directions beers info/],
+                  many => [qw/find phonelist mailing_list/] },
+        pub  => { one => [qw/info comments/],
+                  many => [qw/browse search map/] },
+    ]
+;
+
 
 app->start;
 __DATA__
@@ -54,7 +59,7 @@ __DATA__
 %= title 'Welcome';
 </head>
   <body>
-<a href=/app>toto</a>
+<a href=/app/>toto</a>
 <hr>
 <pre>
 %= Mojo::Asset::File->new(path => $file)->slurp;
