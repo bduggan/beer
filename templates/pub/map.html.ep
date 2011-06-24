@@ -1,6 +1,0 @@
-this is a map of <%= $area %>
-
-%= link_to "brewery/info" => {key => "1"} => begin
-brewery link
-%= end
-

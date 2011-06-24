@@ -1,43 +1,20 @@
 #!/usr/bin/env perl
 
-package Beer::Pub;
-use Mojo::Base 'Mojolicious::Controller';
-sub search {
-    my $c  = shift;
-    $c->render_text("now we are searching pubs from a controller class");
-}
-
-package main;
 use Mojolicious::Lite;
-
-app->routes->namespace("Beer");
-
-get '/pub/search' => "pub/search";
-
-get '/another/url/of/some/sort' => sub {
-    my $c = shift;
-    $c->stash(area => "dc");
-} => "pub/map";
-
-get '/some/url/for/info/about/a/brewery/:key' => sub {
-    my $c = shift;
-    my $key = $c->stash("key");
-    $c->render_text("this is info about brewery $key with my own url");
-} => "brewery/info";
-
-plugin 'toto' =>
-    menu => [
-        beer => {
-                   many => [qw/browse search/],
-                   one => [qw/picture ingredients pubs/],
-                  },
-        brewery => { one => [qw/directions beers info/],
-                  many => [qw/find phonelist mailing_list/] },
-        pub  => { one => [qw/info comments/],
-                  many => [qw/browse search map/] },
-    ],
-    themeswitcher => 1,
-;
-
+plugin toto => menu => [
+   beer => {
+       many => [qw/search browse create/],
+       one  => [qw/view update delete/],
+     },
+     brewery => {
+       many => [qw/find phonelist mailing_list/],
+       one  => [qw/directions beers info/],
+     },
+     pub => {
+       many => [qw/browse search map/],
+       one  => [qw/info comments/],
+    } ],
+themeswitcher => 1;
 
 app->start;
+
