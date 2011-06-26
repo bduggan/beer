@@ -1,6 +1,33 @@
 #!/usr/bin/env perl
 
 use Mojolicious::Lite;
+use IO::Dir;
+
+post '/beer/create' => sub {
+    my $c = shift;
+    my $filename = $c->param('name');
+    $filename =~ tr/a-zA-Z//dc;
+    my $data = Mojo::JSON->new->encode($c->req->params->to_hash);
+    Mojo::Asset::File->new()->add_chunk($data)
+      ->move_to( $c->app->home . "/data/beer/$filename" );
+    $c->app->log->info("wrote beer into $filename");
+    $c->redirect_to('beer/browse');
+};
+
+get '/beer/browse' => sub {
+    my $c = shift;
+    my @beers = grep { $_ !~ /^\./ } IO::Dir->new($c->app->home.'/data/beer')->read;
+    $c->stash(beers => \@beers);
+} => "beer/browse";
+
+get '/beer/view/*key' => [ key => qr/[a-zA-Z]+/ ] => sub {
+    my $c = shift;
+    my $beer = Mojo::JSON->new->decode(
+      Mojo::Asset::File->new( path => $c->app->home . "/data/beer/".$c->stash("key") )
+      ->slurp);
+    $c->stash(beer => $beer );
+} => "beer/view";
+
 plugin toto => menu => [
    beer => {
        many => [qw/search browse create/],

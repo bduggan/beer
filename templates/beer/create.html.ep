@@ -1,0 +1,12 @@
+%= form_for 'beer/create' => method => 'POST' => begin
+
+name :
+%= text_field 'name'
+<br>
+description :
+%= text_field 'description';
+<br>
+
+%= submit_button 'create';
+
+%= end

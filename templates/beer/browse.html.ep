@@ -1,0 +1,13 @@
+
+here are some beers
+<table>
+% for (@$beers) {
+<tr>
+<td>
+%= link_to 'beer/view' => { key => $_ } => begin
+%= $_
+%= end
+</td></tr>
+% }
+</table>
+
