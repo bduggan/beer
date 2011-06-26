@@ -1,7 +1,10 @@
 #!/usr/bin/env perl
 
 use Mojolicious::Lite;
+use File::Path qw/mkpath/;
 use IO::Dir;
+
+mkpath app->home.'/data/beer';
 
 post '/beer/create' => sub {
     my $c        = shift;
