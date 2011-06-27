@@ -25,11 +25,10 @@ get '/beer/browse' => sub {
 
 get '/beer/view/*key' => [ key => qr/[a-zA-Z]+/ ] => sub {
     my $c = shift;
-    my $beer = Mojo::JSON->new->decode(
-        Mojo::Asset::File->new(
-            path => $c->app->home . "/data/beer/" . $c->stash("key")
-          )->slurp
-    );
+    my $file = $c->app->home . "/data/beer/" . $c->stash("key");
+    my $beer = -e $file ? Mojo::JSON->new->decode(
+        Mojo::Asset::File->new( path => $file)->slurp
+    ) : { "no such beer" => "beer ".$c->stash("key") };
     $c->stash(beer => $beer );
 } => "beer/view";
 
