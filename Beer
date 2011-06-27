@@ -23,7 +23,7 @@ get '/beer/browse' => sub {
     $c->stash( beers => \@beers );
 } => "beer/browse";
 
-get '/beer/view/*key' => [ key => qr/[a-zA-Z]+/ ] => sub {
+get '/beer/view/*key' => [ key => qr/[0-9a-zA-Z]+/ ] => sub {
     my $c = shift;
     my $file = $c->app->home . "/data/beer/" . $c->stash("key");
     my $beer = -e $file ? Mojo::JSON->new->decode(
