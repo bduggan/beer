@@ -44,8 +44,7 @@ plugin toto => menu => [
      pub => {
        many => [qw/browse search map/],
        one  => [qw/info comments/],
-    } ],
-themeswitcher => 1;
+    } ];
 
 app->start;
 
