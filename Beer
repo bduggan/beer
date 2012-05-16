@@ -6,7 +6,7 @@ use IO::Dir;
 
 mkpath app->home.'/data/beer';
 
-post '/beer/create' => sub {
+post '/beer/create' => { nav_item => 'beer' } => sub {
     my $c        = shift;
     my $filename = $c->param('name');
     $filename =~ tr/a-zA-Z//dc;
@@ -16,14 +16,14 @@ post '/beer/create' => sub {
     $c->redirect_to('beer/browse');
 };
 
-get '/beer/browse' => sub {
+get '/beer/browse' => { nav_item => 'beer' } =>  sub {
     my $c = shift;
     my @beers =
       grep { $_ !~ /^\./ } IO::Dir->new( $c->app->home . '/data/beer' )->read;
     $c->stash( beers => \@beers );
 } => "beer/browse";
 
-get '/beer/view/*key' => [ key => qr/[0-9a-zA-Z]+/ ] => sub {
+get '/beer/view/*key' => { nav_item => 'beer' } => [ key => qr/[0-9a-zA-Z]+/ ] => sub {
     my $c = shift;
     my $file = $c->app->home . "/data/beer/" . $c->stash("key");
     my $beer = -e $file ? Mojo::JSON->new->decode(
