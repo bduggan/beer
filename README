@@ -1,5 +1,9 @@
 
-dotcloud create beer
-dotcloud deploy --type perl beer.www
-dotcloud push beer.www .
- 
+This is a sample skeletal application that uses Mojolicious-Plugin-Toto.
+
+See also :
+
+https://metacpan.org/module/Mojolicious::Plugin::Toto
+
+http://www.beer.dotcloud.com
+
